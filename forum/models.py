@@ -16,6 +16,7 @@ class Topic(models.Model):
         ('published', 'Published'),
     )
     title = models.CharField(max_length=250)
+    # posts = models.IntegerField()
     slug = models.SlugField(max_length=250,
                             unique_for_date='publish')
     description = models.TextField()

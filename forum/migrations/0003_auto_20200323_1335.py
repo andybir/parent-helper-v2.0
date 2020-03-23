@@ -9,14 +9,14 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('topic', '0002_topic'),
+        ('forum', '0002_topic'),
     ]
 
     operations = [
         migrations.AddField(
             model_name='post',
             name='topic',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='user_posts', to='topic.Topic'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='user_posts', to='forum.Topic'),
         ),
         migrations.AlterField(
             model_name='post',

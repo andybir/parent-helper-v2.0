@@ -7,6 +7,7 @@ class TopicAdmin(admin.ModelAdmin):
     list_display = ('title', 'slug', 'publish', 'status')
     list_filter = ('status', 'created', 'publish')
     prepopulated_fields = {'slug': ('title',)}
+    ordering = ('title',)
     
 # admin.site.register(Post)
 @admin.register(Post)
