@@ -4,10 +4,30 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from taggit.managers import TaggableManager
 
-class PubslishedManager(models.Manager):
+class PublishedManager(models.Manager):
     def get_queryset(self):
-        return super(PubslishedManager,
+        return super(PublishedManager,
                      self).get_queryset().filter(status='published')
+
+
+class Topic(models.Model):
+    STATUS_CHOICES = (
+        ('draft', 'Draft'),
+        ('published', 'Published'),
+    )
+    title = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=250,
+                            unique_for_date='publish')
+    description = models.TextField()
+    publish = models.DateTimeField(default=timezone.now)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    status = models.CharField(max_length=10,
+                              choices=STATUS_CHOICES,
+                              default='draft')
+    objects = models.Manager()
+    published = PublishedManager()
+
 
 
 class Post(models.Model):
@@ -29,7 +49,7 @@ class Post(models.Model):
                               choices=STATUS_CHOICES,
                               default='draft')
     objects = models.Manager() # The default manager
-    published = PubslishedManager() # Our custom manager
+    published = PublishedManager() # Our custom manager
     tags = TaggableManager()
 
     class Meta:

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'topic.apps.TopicConfig',
     'taggit',
+    'social_django',
 ]
 
 MIDDLEWARE = [
