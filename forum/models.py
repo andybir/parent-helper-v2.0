@@ -43,7 +43,7 @@ class Post(models.Model):
     )
     topic = models.ForeignKey(Topic,
                               on_delete=models.CASCADE,
-                              related_name='user_posts',
+                              related_name='posts',
                               blank=True,
                               null=True)
     title = models.CharField(max_length=250)

@@ -11,7 +11,7 @@ def topic_list(request):
 def topic_detail(request, topic):
     topic = get_object_or_404(Topic, slug=topic,
                                      status='published')
-    posts = topic.user_posts.filter(active=True)
+    posts = topic.posts.filter(active=True)
     return render(request,
                   'forum/topic/detail.html',
                   {'topic': topic,
