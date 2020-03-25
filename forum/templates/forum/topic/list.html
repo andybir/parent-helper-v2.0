@@ -4,14 +4,13 @@
 
 {% block content %}
   <h1>Topics</h1>
-  
   {% for topic in topics  %}
     <h2>
       <a href="{{ topic.get_absolute_url }}">
         {{ topic.title }}
       </a>
     </h2>
-    <p class="description">{{ topic.description }}</p>
+    {{ topic.description|linebreaks }}
   {% endfor %}
 {% endblock content %}
     
