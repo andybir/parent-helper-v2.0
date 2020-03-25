@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.title }}{% endblock title %}
+
+{% block content %}
+  <h1>{{ post.title }}</h1>
+  <p class="date">
+    Published {{ post.publish }} by {{ post.author }}
+  </p>
+  {{ post.body|linebreaks }}
+  {% with posts.count as total_posts %}
+    <h2>
+      {{ total_posts }} post{{ total_posts|pluralize }}
+    </h2>
+  {% endwith %}
+  {% for post in posts %}
+    <div class="comment">
+      <p class="info">
+        Post {{ forloop.counter }} by {{ post.author }}
+        {{ post.created }}
+      </p>
+      {{ post.body|linebreaks }}
+    </div>
+  {% empty %}
+    <p>There are no posts yet.</p>
+  {% endfor %}
+  {% if new_post %}
+    <h2>Your post has been created.</h2>
+  {% else %}
+    <h2>Add a comment</h2>
+    <form action="." method="post">
+      {{ post_form.as_p }}
+      {% csrf_token %}
+      <p><input type="submit" value="Add comment"></p>
+    </form>
+  {% endif %}
+{% endblock content %}

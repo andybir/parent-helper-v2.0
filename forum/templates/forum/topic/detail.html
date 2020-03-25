@@ -4,6 +4,11 @@
 
 {% block content %}
   <h1>{{ topic.title }}</h1>
+  {% with posts.count as total_posts %}
+    <h2>
+      {{ total_posts }} post{{ total_posts|pluralize }}
+    </h2>
+  {% endwith %}
   <p>
     {% for post in posts  %}
     <h2>
@@ -14,6 +19,17 @@
     <p class="date">{{ post.body }}</p>
   {% endfor %}
   </p>
+  
+  {% if new_post %}
+    <h2>Your post has been created.</h2>
+  {% else %}
+    <h2>Create a new post</h2>
+    <form action="." method="post">
+      {{ post_form.as_p }}
+      {% csrf_token %}
+      <p><input type="submit" value="Create post"></p>
+    </form>
+  {% endif %}
 {% endblock content %}
     
     
