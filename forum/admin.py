@@ -1,6 +1,10 @@
 from django.contrib import admin
 from .models import Topic, Post
 
+def make_published(modeladmin, request, queryset):
+    queryset.update(status='published')
+make_published.short_description = 'Mark as published'
+
 # admin.site.register(Topic)
 @admin.register(Topic)
 class TopicAdmin(admin.ModelAdmin):
@@ -12,11 +16,11 @@ class TopicAdmin(admin.ModelAdmin):
 # admin.site.register(Post)
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title','topic', 'slug', 'author', 'publish', 
-                    'status')
+    list_display = ('title','topic', 'slug', 'author', 'publish', 'status')
     list_filter = ('status', 'created', 'publish', 'author')
     search_fields = ('title', 'body')
     prepopulated_fields = {'slug': ('title',)}
     raw_id_fields = ('author',)
     date_hierarchy = 'publish'
     ordering = ('status', 'publish')
+    actions = [make_published]

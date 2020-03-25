@@ -32,7 +32,9 @@ class Topic(models.Model):
     def __str__(self):
         return self.title
 
-
+    def get_absolute_url(self):
+        return reverse('forum:topic_detail', 
+                       args=[self.slug])
 
 class Post(models.Model):
     STATUS_CHOICES = (
@@ -68,7 +70,7 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('topic:post_detail',
+        return reverse('forum:post_detail',
                         args=[self.publish.year,
                               self.publish.month,
                               self.publish.day,
