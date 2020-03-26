@@ -13,12 +13,12 @@
         <li {% if section == 'dashboard' %}class="selected"{% endif %}>
           <a href="{% url 'dashboard' %}">My Dashboard</a>
         </li>
-    {% endif %}
 
         <li 
         {% if section == 'topics' %}class="selected"{% endif %}>
           <a href="{% url 'forum:topic_list' %}">Topics</a>
         </li>
+        {% endif %}
       </ul>
     <span class="user">
       {% if request.user.is_authenticated %}

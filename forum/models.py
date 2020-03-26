@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.utils.text import slugify
 from taggit.managers import TaggableManager
 
 class PublishedManager(models.Manager):
@@ -51,7 +52,9 @@ class Post(models.Model):
                             unique_for_date='publish')
     author = models.ForeignKey(User,
                               on_delete=models.CASCADE,
-                              related_name='posts')
+                              related_name='posts',
+                              blank=True,
+                              null=True)                          
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
@@ -59,10 +62,10 @@ class Post(models.Model):
     active = models.BooleanField(default=True)
     status = models.CharField(max_length=10,
                               choices=STATUS_CHOICES,
-                              default='draft')
+                              default='published')
     objects = models.Manager() # The default manager
     published = PublishedManager() # Our custom manager
-    tags = TaggableManager()
+    tags = TaggableManager(blank=True)
 
     class Meta:
         ordering = ('-publish',)
@@ -76,6 +79,20 @@ class Post(models.Model):
                               self.publish.month,
                               self.publish.day,
                               self.slug])
+    
+    def _get_unique_slug(self):
+        slug = slugify(self.title)
+        unique_slug = slug
+        num = 1
+        while Post.objects.filter(slug=unique_slug).exists():
+            unique_slug = '{}-{}'.format(slug, num)
+            num += 1
+        return unique_slug
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = self._get_unique_slug()
+        super().save(*args, **kwargs)
 
 
 class Comment(models.Model):
