@@ -31,7 +31,9 @@ def user_login(request):
                 return HttpResponse('Invalid login')
     else:
         form = LoginForm()
-    return render(request, 'account/login.html', {'form': form})
+    return render(request, 
+                  'account/login.html', 
+                  {'form': form})
 
 
 def register(request):
@@ -78,5 +80,6 @@ def edit(request):
                                  instance=request.user.profile)
     return render(request,
                   'account/edit.html',
-                  {'user_form': user_form,
+                  {'section': 'dashboard',
+                   'user_form': user_form,
                    'profile_form': profile_form})
