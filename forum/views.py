@@ -7,7 +7,8 @@ def topic_list(request):
     topics = Topic.published.all()
     return render(request, 
                   'forum/topic/list.html',
-                  {'topics': topics})
+                  {'section': 'topic_list',
+                  'topics': topics})
 
 def topic_detail(request, topic):
     topic = get_object_or_404(Topic, slug=topic,
@@ -36,7 +37,8 @@ def topic_detail(request, topic):
 
     return render(request,
                   'forum/topic/detail.html',
-                  {'topic': topic,
+                  {'section': 'topic_list',
+                  'topic': topic,
                    'posts': posts,
                    'new_post': new_post,
                    'post_form': post_form})
@@ -74,7 +76,8 @@ def post_detail(request, year, month, day, post):
         comment_form = CommentForm()
     return render(request,
                   'forum/post/detail.html',
-                  {'post': post,
+                  {'section': 'topic_list',
+                   'post': post,
                    'comments': comments,
                    'new_comment': new_comment,
                    'comment_form': comment_form})
